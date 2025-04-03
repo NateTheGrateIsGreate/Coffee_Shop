@@ -1,0 +1,236 @@
+import time
+
+import os
+
+import random
+
+import sys
+
+loop = 1
+
+loop2 = 1
+
+loop3 = 1
+
+extraline = False
+
+# ANSI escape codes for colors
+
+RED = "\033[91m"
+
+GREEN = "\033[92m"
+
+YELLOW = "\033[93m" 
+
+BLUE = "\033[94m"
+
+MAGENTA = "\033[95m" 
+
+CYAN = "\033[96m"
+
+WHITE = "\033[97m"
+
+RESET = "\033[0m"
+
+class wait:
+
+ random_number = random.randint(1, 3)  # Random wait time generator
+
+ def wait_time(random_number): # Function to wait for a random amount of time
+
+   time.sleep(random_number) # Random wait time
+
+   #wait.wait_time(wait.random_number) 
+
+class color:
+
+    def random_Text_Color(text):
+
+        colors = [RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE]
+        
+        random_color = random.choice(colors)
+        
+        return f"{random_color}{text}{RESET}"
+    
+    #print(color.random_Text_Color(""))
+
+def clear_screen(): # Function to clear the screen
+   
+  os.system('cls') # Clear the screen
+
+  #clear_screen() 
+
+def clear_lines(num_lines):
+    
+    for _ in range(num_lines):
+        
+        sys.stdout.write("\033[2K\033[F")  # Clear the current line and move up
+
+    sys.stdout.write("\033[2K")  # Clear the last line
+
+queue = []
+
+print(f"""{YELLOW}     
+                                  _   _          
+                  |              | | | |          ©
+ __,  __   __   __|     __   __  | | | |  _   _  
+/  | /  \_/  \_/  |    /    /  \_|/  |/  |/  |/  
+\_/|/\__/ \__/ \_/|_/  \___/\__/ |__/|__/|__/|__/
+  /|                             |\  |\          
+  \|                             |/  |/ 
+       
+""")
+
+wait.wait_time(wait.random_number)
+
+print(f" \nWelcome!   ")
+
+while loop < 2:
+
+  wait.wait_time(wait.random_number)
+
+  print(f"""{YELLOW}
+        
+  Menu  
+
+  COFFEE                               TEA                DESSERTS
+
+  1 Espresso    $5   4 Macchiato   $5       7 lemon  $3             10 lemon Pie      $7
+
+  2 Latte       $5   5 Flat White  $5       8 Mango  $3             11 Cinnamon Roll  $4
+
+  3 Americano   $5   6 Cappucciono $5       9 Green  $3             12 Croissant      $4
+
+  {RESET}""")
+
+  while loop2 < 2:
+
+    print(f"{BLUE}  What whould you like to order? (format Example: 1,5,12,...) ")
+
+    options = {
+      "1": "Espresso", "2": "Latte", "3": "Americano",
+
+      "4": "Macchiato", "5": "Flat White", "6": "Cappuccino",
+      
+      "7": "lemon", "8": "Mango", "9": "Green",
+
+      "10": "lemon Pie", "11": "Cinnamon Roll", "12": "Croissant"
+    }
+
+    Userchoice = input()
+
+    choices = Userchoice.split(",")  # Allow multiple choices separated by commas
+
+    valid_choices = []
+
+    invalid_choices = []
+
+    for choice in choices:
+
+      choice = choice.strip()  # Remove any extra spaces
+
+      if choice in options:
+
+        valid_choices.append(options[choice])
+
+      else:
+
+        invalid_choices.append(choice)
+
+    if valid_choices:
+
+      print(f"{GREEN}You have selected: {', '.join(valid_choices)}.{RESET}")
+
+      wait.wait_time(wait.random_number)
+
+      extraline = True
+
+      loop2 = 2
+
+    if invalid_choices:
+
+      print(f"{RED}Sorry, the following items are not on the menu: {', '.join(invalid_choices)}.{RESET}")
+
+      wait.wait_time(wait.random_number)
+
+      clear_lines(3)  #move up 2 lines
+
+      if extraline == True:
+        
+        clear_lines(1)   #move up 1 lines
+
+        extraline = False
+
+      loop2 = 1
+
+
+  while loop3 < 2:
+      
+    print(f"{BLUE} \n Please input you name for this order ")
+
+    user_name = input()
+
+    if user_name.strip():  # Check if the input is not empty or just spaces
+
+      print(f"{GREEN}Thank you, {user_name}. Your order has been placed!{RESET}")
+
+      loop3 = 2 
+
+    else:
+
+      print(f"{RED}Invalid name. Please enter a valid name.{RESET}")
+
+      wait.wait_time(wait.random_number)
+
+      clear_lines(3)  #move up 3 lines
+
+      loop3 = 1
+
+  queue.append({"name": user_name, "order": valid_choices}) # Add the order to the queue
+
+  while True:
+      print(color.random_Text_Color("\n Current line: \n"))
+
+      for order in queue:
+    
+           print(color.random_Text_Color(f"Name: {order['name']}, Order: {', '.join(order['order'])}\n"))
+      
+      print(f"\n{YELLOW}Would you like to: \n1. Place another order\n2. Serve an order\n3. Quit{RESET}")
+
+      user_action = input().strip()
+
+      if user_action == "1":
+
+        loop2 = 1
+
+        loop3 = 1
+
+        clear_screen() 
+
+        break  # Restart the ordering process
+
+      elif user_action == "2":
+        
+        if queue:
+
+          served_order = queue.pop(0)
+
+          print(f"\n{GREEN}Serving order for {served_order['name']}: {', '.join(served_order['order'])}{RESET}")
+
+          wait.wait_time(wait.random_number) 
+
+          clear_screen() 
+
+        else:
+
+          print(f"\n{RED}No orders in the queue to serve.{RESET}")
+
+      elif user_action == "3":
+
+        clear_screen() 
+
+        print(f"\n{GREEN}Thank you for visiting!{RESET}")
+
+      else:
+
+        print(f"{RED}Invalid choice. Please select 1, 2, or 3.{RESET}")
