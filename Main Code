@@ -231,6 +231,14 @@ while loop < 2:
 
         print(f"\n{GREEN}Thank you for visiting!{RESET}")
 
+        loop2 = 2
+
+        loop3 = 2
+
+        loop = 2
+
+        break 
+
       else:
 
         print(f"{RED}Invalid choice. Please select 1, 2, or 3.{RESET}")
